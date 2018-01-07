@@ -25,6 +25,7 @@ E.g `java -jar kdigit-*.jar 10 20` will look through bases 10 to 20 (inclusive).
 `java -jar kdigit-*.jar 10` will look from base 20 up to base 2^31 - 1.  
 `java -jar kdigit-*.jar` will look from base 2 up to base 2^31 - 1
 
+A usable jar can be downloaded from the [releases section](https://github.com/binoternary/k-digit-numbers/releases).
 
 ## Solutions fo far
 
