@@ -3,6 +3,7 @@ package binoternary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigInteger;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +37,19 @@ public class KDigitNumber {
         log.info("Done solving for base {} in {}.", base, Duration.ofNanos(end - start));
 
         return new Solution(base, solutionsForBase);
+    }
+
+    static KDigitNumber of(int base, int[] digits) {
+        KDigitNumber n = null;
+        for (int d : digits) {
+            if (n == null) {
+                n = new KDigitNumber(base, d);
+            }
+            else {
+                n = new KDigitNumber(n, d);
+            }
+        }
+        return n;
     }
 
     public int base() {
@@ -98,16 +112,21 @@ public class KDigitNumber {
         return true;
     }
 
-    private long digitsToDecimal(int firstN) {
-        long dec = 0L;
+    private BigInteger digitsToDecimal(int firstN) {
+        BigInteger dec = BigInteger.ZERO;
         for (int i = 0, c = firstN - 1; i < firstN; i++, c--) {
-            dec += Math.pow(base, c) * solutionPrefix[i];
+            dec = dec.add(BigInteger.valueOf(solutionPrefix[i]).multiply(BigInteger.valueOf(base).pow(c)));
         }
         return dec;
     }
 
+    public BigInteger digitsToDecimal() {
+        return digitsToDecimal(solutionPrefix.length);
+    }
+
     private boolean isValidPrefix(int prefixLength) {
-        return prefixLength == 1 || digitsToDecimal(prefixLength) % prefixLength == 0;
+        return prefixLength == 1
+                || digitsToDecimal(prefixLength).mod(BigInteger.valueOf(prefixLength)).equals(BigInteger.ZERO);
     }
 
     private boolean isElementInArray(int[] arr, int e) {

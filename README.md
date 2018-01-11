@@ -61,6 +61,8 @@ base-26 : []
 base-27 : []
 base-28 : []
 base-29 : []
+base-30 : []
+base-31 : []
 ```
 
 [1] http://jwilson.coe.uga.edu/emt725/Class/Lanier/Nine.Digit/nine.html  

@@ -2,7 +2,10 @@ package binoternary;
 
 import org.junit.jupiter.api.Test;
 
+import java.math.BigInteger;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class KDigitNumberTest {
@@ -33,5 +36,11 @@ class KDigitNumberTest {
         KDigitNumber.Solution b2 = KDigitNumber.solveForBase(2);
         assertEquals(1, b2.solutions().size());
         assertTrue(b2.isSolution(new int[]{1}));
+    }
+
+    @Test
+    void testFalsePositiveDueToOverflow() {
+        KDigitNumber n = KDigitNumber.of(17, new int[]{1, 11, 10, 14, 8, 12, 6, 2, 5, 7, 13, 3, 16, 15, 4, 9});
+        assertNotEquals(BigInteger.ZERO, n.digitsToDecimal().mod(BigInteger.valueOf(16)));
     }
 }
