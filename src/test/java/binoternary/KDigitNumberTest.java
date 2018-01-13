@@ -41,6 +41,6 @@ class KDigitNumberTest {
     @Test
     void testFalsePositiveDueToOverflow() {
         KDigitNumber n = KDigitNumber.of(17, new int[]{1, 11, 10, 14, 8, 12, 6, 2, 5, 7, 13, 3, 16, 15, 4, 9});
-        assertNotEquals(BigInteger.ZERO, n.digitsToDecimal().mod(BigInteger.valueOf(16)));
+        assertNotEquals(BigInteger.ZERO, n.getDecimalValue().mod(BigInteger.valueOf(16)));
     }
 }

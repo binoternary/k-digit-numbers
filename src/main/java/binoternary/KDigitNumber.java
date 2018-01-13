@@ -20,8 +20,10 @@ public class KDigitNumber {
     private static final Logger log = LogManager.getLogger();
 
     private final int base;
+    private final BigInteger biBase; // small optimization
     private final int[] solutionPrefix;
     private final BitSet availableDigits;
+    private final BigInteger decimalValue;
 
     public static Solution solveForBase(int base) {
         log.info("Solving for base {} ...", base);
@@ -52,14 +54,6 @@ public class KDigitNumber {
         return n;
     }
 
-    public int base() {
-        return base;
-    }
-
-    public int[] digits() {
-        return Arrays.copyOf(solutionPrefix, solutionPrefix.length);
-    }
-
     private KDigitNumber(int base, int firstDigit) {
         if (base < 2) {
             throw new IllegalArgumentException("base: " + base);
@@ -68,10 +62,12 @@ public class KDigitNumber {
         if (isInvalidDigit(firstDigit)) {
             throw new IllegalArgumentException("digit: " + firstDigit);
         }
-        this.solutionPrefix = new int[]{firstDigit};
-        this.availableDigits = new BitSet(base);
+        solutionPrefix = new int[]{firstDigit};
+        availableDigits = new BitSet(base);
         availableDigits.set(1, base);
         availableDigits.clear(firstDigit);
+        biBase = BigInteger.valueOf(base);
+        decimalValue = BigInteger.valueOf(firstDigit);
     }
 
     private KDigitNumber(KDigitNumber previous, int nextDigit) {
@@ -81,11 +77,23 @@ public class KDigitNumber {
         }
         solutionPrefix = Arrays.copyOf(previous.solutionPrefix, previous.solutionPrefix.length + 1);
         solutionPrefix[solutionPrefix.length - 1] = nextDigit;
-
-
         availableDigits = new BitSet();
         availableDigits.or(previous.availableDigits);
         availableDigits.clear(nextDigit);
+        biBase = previous.biBase;
+        decimalValue = previous.decimalValue.multiply(biBase).add(BigInteger.valueOf(nextDigit));
+    }
+
+    public int base() {
+        return base;
+    }
+
+    public int[] digits() {
+        return Arrays.copyOf(solutionPrefix, solutionPrefix.length);
+    }
+
+    public BigInteger getDecimalValue() {
+        return decimalValue;
     }
 
     private Stream<KDigitNumber> solutions() {
@@ -94,10 +102,24 @@ public class KDigitNumber {
         }
         return availableDigits.stream()
                 .mapToObj(d -> new KDigitNumber(this, d))
-                .filter(s -> s.isValidPrefix(solutionPrefix.length))
+                .filter(KDigitNumber::isValidPrefix)
+                .map(KDigitNumber::logSignificantProgress)
                 .map(KDigitNumber::solutions)
-                .flatMap(s -> s)
-                ;
+                .flatMap(s -> s);
+    }
+
+    private boolean isValidPrefix() {
+        return decimalValue.mod(BigInteger.valueOf(solutionPrefix.length)).equals(BigInteger.ZERO);
+    }
+
+    private KDigitNumber logSignificantProgress() {
+        if (isValidSolution()) {
+            log.info("! {}", this);
+        }
+        else if (base - solutionPrefix.length < 5) {
+            log.trace(this);
+        }
+        return this;
     }
 
     private boolean isValidSolution() {
@@ -112,21 +134,17 @@ public class KDigitNumber {
         return true;
     }
 
+    private boolean isValidPrefix(int prefixLength) {
+        return prefixLength == 1
+                || digitsToDecimal(prefixLength).mod(BigInteger.valueOf(prefixLength)).equals(BigInteger.ZERO);
+    }
+
     private BigInteger digitsToDecimal(int firstN) {
         BigInteger dec = BigInteger.ZERO;
         for (int i = 0, c = firstN - 1; i < firstN; i++, c--) {
             dec = dec.add(BigInteger.valueOf(solutionPrefix[i]).multiply(BigInteger.valueOf(base).pow(c)));
         }
         return dec;
-    }
-
-    public BigInteger digitsToDecimal() {
-        return digitsToDecimal(solutionPrefix.length);
-    }
-
-    private boolean isValidPrefix(int prefixLength) {
-        return prefixLength == 1
-                || digitsToDecimal(prefixLength).mod(BigInteger.valueOf(prefixLength)).equals(BigInteger.ZERO);
     }
 
     private boolean isElementInArray(int[] arr, int e) {

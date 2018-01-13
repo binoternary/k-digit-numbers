@@ -34,36 +34,14 @@ Each digit is written as its decimal value and digits are separated by underscor
 
 ```
 base-2 : [b2-1]
-base-3 : []
 base-4 : [b4-1_2_3, b4-3_2_1]
-base-5 : []
 base-6 : [b6-1_4_3_2_5, b6-5_4_3_2_1]
-base-7 : []
 base-8 : [b8-3_2_5_4_1_6_7, b8-5_2_3_4_7_6_1, b8-5_6_7_4_3_2_1]
-base-9 : []
 base-10 : [b10-3_8_1_6_5_4_7_2_9]
-base-11 : []
-base-12 : []
-base-13 : []
 base-14 : [b14-9_12_3_10_5_4_7_6_11_8_1_2_13]
-base-15 : []
-base-16 : []
-base-17 : [b17-1_11_10_14_8_12_6_2_5_7_13_3_16_15_4_9, b17-1_11_10_14_8_12_6_2_5_7_13_3_16_15_9_4, b17-3_1_13_11_15_7_12_2_5_9_14_8_4_6_10_16, b17-3_1_13_11_15_7_12_2_5_9_14_8_4_6_16_10]
-base-18 : []
-base-19 : []
-base-20 : []
-base-21 : []
-base-22 : []
-base-23 : []
-base-24 : []
-base-25 : []
-base-26 : []
-base-27 : []
-base-28 : []
-base-29 : []
-base-30 : []
-base-31 : []
 ```
+
+Other bases up to (and including) base-30 don't contain any solutions.
 
 [1] http://jwilson.coe.uga.edu/emt725/Class/Lanier/Nine.Digit/nine.html  
 [2] https://www.amazon.co.uk/Things-Make-Do-Fourth-Dimension/dp/0141975865/
