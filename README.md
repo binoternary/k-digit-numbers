@@ -27,10 +27,7 @@ E.g `java -jar kdigit-*.jar 10 20` will look through bases 10 to 20 (inclusive).
 
 A usable jar can be downloaded from the [releases section](https://github.com/binoternary/k-digit-numbers/releases).
 
-## Solutions fo far
-
-The solutions have a prefix to indicate the base followed by the digits.
-Each digit is written as its decimal value and digits are separated by underscore.
+## Results so far
 
 ```
 base-2 : [b2-1]
@@ -41,7 +38,9 @@ base-10 : [b10-3_8_1_6_5_4_7_2_9]
 base-14 : [b14-9_12_3_10_5_4_7_6_11_8_1_2_13]
 ```
 
-Other bases up to (and including) base-30 don't contain any solutions.
+Other bases up to (and including) base-36 don't contain any solutions.
+
+Here e.g `b4-1_2_3` means that it is a base-4 number with 3 digits - 1, 2 and 3 (each digit is a decimal value).
 
 [1] http://jwilson.coe.uga.edu/emt725/Class/Lanier/Nine.Digit/nine.html  
 [2] https://www.amazon.co.uk/Things-Make-Do-Fourth-Dimension/dp/0141975865/
